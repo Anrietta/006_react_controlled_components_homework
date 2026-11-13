@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import styles from './index.module.css'
 import { PiUserCirclePlus } from "react-icons/pi";
 
 const SIGN_UP_FORM_INITIAL_VALUES = {
@@ -21,23 +22,48 @@ class SignUpForm extends Component {
     
       this.state = {
         name: SIGN_UP_FORM_INITIAL_VALUES.name,
+        isNameValid: false,
         email: SIGN_UP_FORM_INITIAL_VALUES.email,
+        isEmailValid: false,
         pass: SIGN_UP_FORM_INITIAL_VALUES.pass,
+        isPassValid: false,
         passConfirmation: SIGN_UP_FORM_INITIAL_VALUES.passConfirmation,
+        isPassConfirmationValid: false,
         isChecked: SIGN_UP_FORM_INITIAL_VALUES.isChecked,
 
       }
     }
 
     handleInputChange = ({target: {name, type, checked, value}}) => {
-        this.setState({
-            [name]:  type === 'checkbox' ? checked : value,
-        });
+        const {pass} = this.state;
+
+        if (type === 'checkbox') {
+            this.setState({
+                [name]: checked,
+            })
+            return;
+        } else {
+            const keyNameGenerator = `is${name.charAt(0).toUpperCase() + name.slice(1)}Valid`;
+
+            {/*passConfirmation немає сенсу порівнювати одночасно на відповідність рег.виразу для pass і звіряти значення value===pass, достатньо лише перевірити щоб value був ідентичним у pass та passConfirmation*/}
+            this.setState({
+                [name]: value,
+                [keyNameGenerator]: name === 'passConfirmation' ? value === pass : SIGN_UP_FORM_REG_EXP[name].test(value),
+            });
+        }
     }
 
     handleSubmit = e => {
-        e.preventDefault();
-        this.setState(SIGN_UP_FORM_INITIAL_VALUES);
+            e.preventDefault();
+
+            const {isNameValid, isEmailValid, isPassValid, isPassConfirmationValid} = this.state;
+
+            if (!isNameValid || !isEmailValid || !isPassValid || !isPassConfirmationValid) {
+                console.log('error on submit');
+                return;
+            }
+
+            this.setState(SIGN_UP_FORM_INITIAL_VALUES);
     }
 
     render() {
@@ -45,13 +71,14 @@ class SignUpForm extends Component {
         const {name, email, pass, passConfirmation, isChecked} = this.state;
 
         return (
-            <div>
-                <div><PiUserCirclePlus /></div>
-                <h1>Create your account</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        <span>Name:</span>
+            <div className={styles.formContainer}>
+                <div className={styles.formIcon}><PiUserCirclePlus /></div>
+                <h1 className={styles.formHeader}>Create your account</h1>
+                <form className={styles.signUpForm} onSubmit={this.handleSubmit}>
+                    <label className={styles.label}>
+                        <span className={styles.inputName}>Name:</span>
                         <input 
+                            className={styles.input}
                             type="text" 
                             name="name" 
                             placeholder="Enter your name" 
@@ -62,9 +89,10 @@ class SignUpForm extends Component {
                             autoFocus
                         />
                     </label>
-                    <label>
-                        <span>Email:</span>
-                        <input 
+                    <label className={styles.label}>
+                        <span className={styles.inputName}>Email:</span>
+                        <input
+                            className={styles.input} 
                             type="email" 
                             name="email" 
                             placeholder="your@email" 
@@ -74,9 +102,10 @@ class SignUpForm extends Component {
                             autoComplete="email"
                         />
                     </label>
-                    <label>
-                        <span>Password:</span>
-                        <input 
+                    <label className={styles.label}>
+                        <span className={styles.inputName}>Password:</span>
+                        <input
+                            className={styles.input} 
                             type="password" 
                             name="pass" 
                             placeholder="Password" 
@@ -87,9 +116,10 @@ class SignUpForm extends Component {
                             minLength='8'
                         />
                     </label>
-                    <label>
-                        <span>Confirm password:</span>
-                        <input 
+                    <label className={styles.label}>
+                        <span className={styles.inputName}>Confirm password:</span>
+                        <input
+                            className={styles.input} 
                             type="password" 
                             name="passConfirmation" 
                             placeholder="Password" 
