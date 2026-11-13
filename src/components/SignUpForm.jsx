@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import styles from './index.module.css'
-import { PiUserCirclePlus } from "react-icons/pi";
+import classNames from 'classnames'
+import { PiUserCirclePlus, PiEyeSlash, PiEyeLight } from "react-icons/pi";
 
 const SIGN_UP_FORM_INITIAL_VALUES = {
         name: '',
@@ -16,6 +17,8 @@ const SIGN_UP_FORM_REG_EXP = {
     pass: /^(?=.*[A-Z].*)(?=.*[a-z].*)(?=.*\d.*)(?=.*[!@#$%^&**.].*).{8,20}$/,
 }
 
+
+
 class SignUpForm extends Component {
     constructor(props) {
       super(props)
@@ -30,6 +33,9 @@ class SignUpForm extends Component {
         passConfirmation: SIGN_UP_FORM_INITIAL_VALUES.passConfirmation,
         isPassConfirmationValid: false,
         isChecked: SIGN_UP_FORM_INITIAL_VALUES.isChecked,
+
+        isVisiblePass: false,
+        isVisiblePassConfirmation: false,
 
       }
     }
@@ -54,21 +60,36 @@ class SignUpForm extends Component {
     }
 
     handleSubmit = e => {
-            e.preventDefault();
+        e.preventDefault();
 
-            const {isNameValid, isEmailValid, isPassValid, isPassConfirmationValid} = this.state;
+        const {isNameValid, isEmailValid, isPassValid, isPassConfirmationValid} = this.state;
 
-            if (!isNameValid || !isEmailValid || !isPassValid || !isPassConfirmationValid) {
-                console.log('error on submit');
-                return;
-            }
+        if (!isNameValid || !isEmailValid || !isPassValid || !isPassConfirmationValid) {
+            console.log('error on submit');
+            return;
+        }
 
-            this.setState(SIGN_UP_FORM_INITIAL_VALUES);
+        this.setState(SIGN_UP_FORM_INITIAL_VALUES);
+    }
+
+    getInputClass = name => {
+        //винеси це в глобальну змінну або окрему чисту маленьку функцію
+        const isValidName = `is${name.charAt(0).toUpperCase() + name.slice(1)}Valid`;
+
+        return classNames(styles.input, {
+            [styles.inputInvalid]: !this.state[isValidName],
+        })
+    }
+
+    toggleShowPasswords = (name) => {
+        this.setState({
+            [`isVisible${name}`]: !this.state[`isVisible${name}`],
+        })
     }
 
     render() {
 
-        const {name, email, pass, passConfirmation, isChecked} = this.state;
+        const {name, email, pass, passConfirmation, isChecked, isVisiblePass, isVisiblePassConfirmation} = this.state;
 
         return (
             <div className={styles.formContainer}>
@@ -78,7 +99,7 @@ class SignUpForm extends Component {
                     <label className={styles.label}>
                         <span className={styles.inputName}>Name:</span>
                         <input 
-                            className={styles.input}
+                            className={this.getInputClass("name")}
                             type="text" 
                             name="name" 
                             placeholder="Enter your name" 
@@ -92,7 +113,7 @@ class SignUpForm extends Component {
                     <label className={styles.label}>
                         <span className={styles.inputName}>Email:</span>
                         <input
-                            className={styles.input} 
+                            className={this.getInputClass("email")} 
                             type="email" 
                             name="email" 
                             placeholder="your@email" 
@@ -105,8 +126,8 @@ class SignUpForm extends Component {
                     <label className={styles.label}>
                         <span className={styles.inputName}>Password:</span>
                         <input
-                            className={styles.input} 
-                            type="password" 
+                            className={this.getInputClass("pass")} 
+                            type={isVisiblePass ? "text" : "password"} 
                             name="pass" 
                             placeholder="Password" 
                             value={pass} 
@@ -114,21 +135,25 @@ class SignUpForm extends Component {
                             required
                             autoComplete="new-password"
                             minLength='8'
+                            maxLength='20' 
                         />
+                        <span className={styles.passVisibilityIcon} onClick={() => this.toggleShowPasswords("Pass")}>{isVisiblePass ? <PiEyeSlash/> : <PiEyeLight/>}</span>
                     </label>
                     <label className={styles.label}>
                         <span className={styles.inputName}>Confirm password:</span>
                         <input
-                            className={styles.input} 
-                            type="password" 
+                            className={this.getInputClass("passConfirmation")} 
+                            type={isVisiblePassConfirmation ? "text" : "password"} 
                             name="passConfirmation" 
                             placeholder="Password" 
                             value={passConfirmation} 
                             onChange ={this.handleInputChange} 
                             required
                             autoComplete="new-password"
-                            minLength='8' 
+                            minLength='8'
+                            maxLength='20' 
                         />
+                        <span className={styles.passVisibilityIcon} onClick={() => this.toggleShowPasswords("PassConfirmation")}>{isVisiblePassConfirmation ? <PiEyeSlash/> : <PiEyeLight/>}</span>
                     </label>
                     <label>
                         {/*У реакт атрибут checked який вказаний статично (сhecked або checked={true}) без привязки до стейта означає що чекбокс завжди ввімкнено
