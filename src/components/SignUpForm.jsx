@@ -54,7 +54,7 @@ class SignUpForm extends Component {
             {/*passConfirmation немає сенсу порівнювати одночасно на відповідність рег.виразу для pass і звіряти значення value===pass, достатньо лише перевірити щоб value був ідентичним у pass та passConfirmation*/}
             this.setState({
                 [name]: value,
-                [keyNameGenerator]: name === 'passConfirmation' ? value === pass : SIGN_UP_FORM_REG_EXP[name].test(value),
+                [keyNameGenerator]: name === 'passConfirmation' ? (value === pass && SIGN_UP_FORM_REG_EXP.pass.test(value)) : SIGN_UP_FORM_REG_EXP[name].test(value),
             });
         }
     }
