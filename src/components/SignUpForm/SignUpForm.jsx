@@ -66,7 +66,7 @@ class SignUpForm extends Component {
         const {isNameValid, isEmailValid, isPassValid, isPassConfirmationValid} = this.state;
 
         if (!isNameValid || !isEmailValid || !isPassValid || !isPassConfirmationValid) {
-            console.log('error on submit');
+            alert('Please fill in and check all the fields of form');
             return;
         }
 

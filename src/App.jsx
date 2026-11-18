@@ -1,4 +1,4 @@
-import SignUpForm from './components/SignUpForm.jsx'
+import SignUpForm from './components/SignUpForm/SignUpForm.jsx'
 import './styles/reset/reset.css'
 import './App.css'
 
