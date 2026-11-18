@@ -80,7 +80,7 @@ class SignUpForm extends Component {
         const isValidName = this.isValidKeyNameGenerator(name)
 
         return classNames(styles.input, {
-            [styles.inputInvalid]: !this.state[isValidName],
+            [styles.inputInvalid]: this.state[name].length > 0 && !this.state[isValidName],
         })
     }
 
