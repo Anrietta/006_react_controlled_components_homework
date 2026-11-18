@@ -49,9 +49,10 @@ class SignUpForm extends Component {
             })
             return;
         } else {
-            const keyNameGenerator = `is${name.charAt(0).toUpperCase() + name.slice(1)}Valid`;
+            const keyNameGenerator = this.isValidKeyNameGenerator(name);
 
-            {/*passConfirmation немає сенсу порівнювати одночасно на відповідність рег.виразу для pass і звіряти значення value===pass, достатньо лише перевірити щоб value був ідентичним у pass та passConfirmation*/}
+            {/*passConfirmation немає сенсу порівнювати одночасно на відповідність рег.виразу для pass і звіряти значення value===pass, достатньо лише перевірити щоб value був ідентичним у pass та passConfirmation
+                В таскі вказано порівняти і те і те!!!! Роби як в тасках*/}
             this.setState({
                 [name]: value,
                 [keyNameGenerator]: name === 'passConfirmation' ? (value === pass && SIGN_UP_FORM_REG_EXP.pass.test(value)) : SIGN_UP_FORM_REG_EXP[name].test(value),
@@ -73,8 +74,10 @@ class SignUpForm extends Component {
     }
 
     getInputClass = name => {
-        //винеси це в глобальну змінну або окрему чисту маленьку функцію
-        const isValidName = `is${name.charAt(0).toUpperCase() + name.slice(1)}Valid`;
+        //винеси це в окрему чисту маленьку функцію бо дублюється в двох місцях
+        // const isValidName = `is${name.charAt(0).toUpperCase() + name.slice(1)}Valid`;
+
+        const isValidName = this.isValidKeyNameGenerator(name)
 
         return classNames(styles.input, {
             [styles.inputInvalid]: !this.state[isValidName],
@@ -85,6 +88,10 @@ class SignUpForm extends Component {
         this.setState({
             [`isVisible${name}`]: !this.state[`isVisible${name}`],
         })
+    }
+
+    isValidKeyNameGenerator = name => {
+        return `is${name.charAt(0).toUpperCase() + name.slice(1)}Valid`;
     }
 
     render() {
