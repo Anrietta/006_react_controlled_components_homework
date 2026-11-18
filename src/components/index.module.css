@@ -1,10 +1,15 @@
+:root {
+    --main-brand-text-color: #4f46e5;
+}
 .formContainer {
     margin: 10px auto;
     padding: 20px;
-    box-shadow: 0 0 5px grey;
     max-width: 800px;
     width: 100%;
-    min-width: 320px;
+    min-width: 280px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
 }
 
 .formIcon {
@@ -12,20 +17,23 @@
 }
 
 .formIcon > svg{
-    font-size: 48px;
-    color: green;
+    font-size: 4rem;
+    color: var(--main-brand-text-color);
     margin-bottom: 15px;
 }
 
 .formHeader {
     text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
     margin-bottom: 40px;
 }
 
 .signUpForm {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px;
 
 }
 
@@ -33,21 +41,47 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    position: relative;
 }
 
 .inputName {
+    font-weight: 500;
+    color: #374151;
+}
 
+.inputWrapper {
+    position: relative; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 0 1 60%;
 }
 
 .input {
+    width: 100%;
     padding: 10px 20px;
     outline: none;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    font-size: 0.9rem;
+    color: #1f2937;
+    transition: all 0.2s ease;
+}
+
+.input::placeholder {
+    font-size: 0.9rem;
+}
+/* якщо не поставити not то focus конфліктує з inputValid і перебиває його */
+.input:focus:not(.inputInvalid) {
+    border-color: var(--main-brand-text-color);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
 }
 
 .inputInvalid {
-    border: 1px solid red;
+    border-color: #ef4444;
+    background-color: #fef2f2;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
 }
 
 .passVisibilityIcon {
@@ -55,4 +89,66 @@
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
+    cursor: pointer;
+    color: #9ca3af;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.passVisibilityIcon:hover {
+    color: var(--main-brand-text-color);
+}
+
+/* зміню колір відмічегного чекбокса на брендовий, якщо якісь браузери його проігнорять то застосується який стандартний колір. */
+.checkbox {
+    accent-color: var(--main-brand-text-color);
+    margin-top: 20px;
+}
+
+.checkboxText {
+    font-size: 0.9rem;
+}
+
+.submitBtn {
+    padding: 15px 20px;
+    background-color: var(--main-brand-text-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    margin: 20px 0 0 0;
+    align-self: center;
+}
+
+.submitBtn:hover {
+    background-color: #4338ca;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.submitBtn:active {
+    transform: scale(0.98);
+}
+
+
+@media (max-width: 550px) {
+    .formHeader {
+        font-size: 1.3rem;
+    }
+    
+    .label {
+        flex-direction: column;
+        align-items: baseline;
+    }
+
+    .inputName {
+        margin-bottom: 5px;
+    }
+
+    .inputWrapper {
+        width: 100%;
+    }
+
 }

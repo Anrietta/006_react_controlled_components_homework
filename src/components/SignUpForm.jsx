@@ -98,78 +98,87 @@ class SignUpForm extends Component {
                 <form className={styles.signUpForm} onSubmit={this.handleSubmit}>
                     <label className={styles.label}>
                         <span className={styles.inputName}>Name:</span>
-                        <input 
-                            className={this.getInputClass("name")}
-                            type="text" 
-                            name="name" 
-                            placeholder="Enter your name" 
-                            value={name} 
-                            onChange ={this.handleInputChange} 
-                            required
-                            autoComplete="name"
-                            autoFocus
-                        />
+                        <div className={styles.inputWrapper}>
+                            <input 
+                                className={this.getInputClass("name")}
+                                type="text" 
+                                name="name" 
+                                placeholder="Enter your name" 
+                                value={name} 
+                                onChange ={this.handleInputChange} 
+                                required
+                                autoComplete="name"
+                                autoFocus
+                            />
+                        </div>
                     </label>
                     <label className={styles.label}>
                         <span className={styles.inputName}>Email:</span>
-                        <input
-                            className={this.getInputClass("email")} 
-                            type="email" 
-                            name="email" 
-                            placeholder="your@email" 
-                            value={email} 
-                            onChange ={this.handleInputChange} 
-                            required
-                            autoComplete="email"
-                        />
+                        <div className={styles.inputWrapper}>
+                            <input
+                                className={this.getInputClass("email")} 
+                                type="email" 
+                                name="email" 
+                                placeholder="your@email" 
+                                value={email} 
+                                onChange ={this.handleInputChange} 
+                                required
+                                autoComplete="email"
+                            />
+                        </div>
                     </label>
                     <label className={styles.label}>
                         <span className={styles.inputName}>Password:</span>
-                        <input
-                            className={this.getInputClass("pass")} 
-                            type={isVisiblePass ? "text" : "password"} 
-                            name="pass" 
-                            placeholder="Password" 
-                            value={pass} 
-                            onChange ={this.handleInputChange} 
-                            required
-                            autoComplete="new-password"
-                            minLength='8'
-                            maxLength='20' 
-                        />
-                        <span className={styles.passVisibilityIcon} onClick={() => this.toggleShowPasswords("Pass")}>{isVisiblePass ? <PiEyeSlash/> : <PiEyeLight/>}</span>
+                        <div className={styles.inputWrapper}>
+                            <input
+                                className={this.getInputClass("pass")} 
+                                type={isVisiblePass ? "text" : "password"} 
+                                name="pass" 
+                                placeholder="Password" 
+                                value={pass} 
+                                onChange ={this.handleInputChange} 
+                                required
+                                autoComplete="new-password"
+                                minLength='8'
+                                maxLength='20' 
+                            />
+                            <span className={styles.passVisibilityIcon} onClick={() => this.toggleShowPasswords("Pass")}>{isVisiblePass ? <PiEyeSlash/> : <PiEyeLight/>}</span>
+                        </div>
                     </label>
                     <label className={styles.label}>
                         <span className={styles.inputName}>Confirm password:</span>
-                        <input
-                            className={this.getInputClass("passConfirmation")} 
-                            type={isVisiblePassConfirmation ? "text" : "password"} 
-                            name="passConfirmation" 
-                            placeholder="Password" 
-                            value={passConfirmation} 
-                            onChange ={this.handleInputChange} 
-                            required
-                            autoComplete="new-password"
-                            minLength='8'
-                            maxLength='20' 
-                        />
-                        <span className={styles.passVisibilityIcon} onClick={() => this.toggleShowPasswords("PassConfirmation")}>{isVisiblePassConfirmation ? <PiEyeSlash/> : <PiEyeLight/>}</span>
+                        <div className={styles.inputWrapper}>
+                            <input
+                                className={this.getInputClass("passConfirmation")} 
+                                type={isVisiblePassConfirmation ? "text" : "password"} 
+                                name="passConfirmation" 
+                                placeholder="Password" 
+                                value={passConfirmation} 
+                                onChange ={this.handleInputChange} 
+                                required
+                                autoComplete="new-password"
+                                minLength='8'
+                                maxLength='20' 
+                            />
+                            <span className={styles.passVisibilityIcon} onClick={() => this.toggleShowPasswords("PassConfirmation")}>{isVisiblePassConfirmation ? <PiEyeSlash/> : <PiEyeLight/>}</span>
+                        </div>
                     </label>
                     <label>
                         {/*У реакт атрибут checked який вказаний статично (сhecked або checked={true}) без привязки до стейта означає що чекбокс завжди ввімкнено
                         тобто реакт буде ігнорити кліки на чекбоксі і не буде знімати пташечку. Щоб все ставилось і знімалось треба звязати атриб checked із
                         стейтом (як в інших інпутах ми робим з value) checkbox={isChecked} тоді його значення автоматично буде змінюватись між true/false при кліку
                         , обробник змінюватиме стейт, і пташечка буде гарно зніматись*/}
-                        <input 
+                        <input
+                            className={styles.checkbox} 
                             type="checkbox" 
                             name="isChecked" 
                             onChange={this.handleInputChange} 
                             checked={isChecked} 
                             required
                         />
-                        <span>I agree all statements and terms of service</span>
+                        <span className={styles.checkboxText}>I agree all statements and terms of service</span>
                     </label>
-                    <button type='submit'>Sign Up</button>
+                    <button className={styles.submitBtn} type='submit'>Sign Up</button>
                 </form>
             </div>
         );

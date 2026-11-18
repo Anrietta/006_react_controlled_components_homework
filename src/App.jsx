@@ -1,6 +1,6 @@
 import SignUpForm from './components/SignUpForm.jsx'
+import './styles/reset/reset.css'
 import './App.css'
-import './styles/reset.css'
 
 function App() {
 
